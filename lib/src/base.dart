@@ -140,7 +140,7 @@ abstract class SentryClient {
 
   /// Reports an [event] to Sentry.io.
   Future<SentryResponse> captureJson({
-    @required Map<String, dynamic> json,
+    @required Map<String, dynamic> eventJson,
   }) async {
     final now = _clock();
     var authHeader = 'Sentry sentry_version=6, sentry_client=$sentryClient, '
@@ -168,7 +168,7 @@ abstract class SentryClient {
     }
 
     mergeAttributes(
-			json,
+			eventJson,
       into: data,
     );
     mergeAttributes({'platform': _platform}, into: data);
