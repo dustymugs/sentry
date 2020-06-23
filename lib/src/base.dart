@@ -139,9 +139,8 @@ abstract class SentryClient {
   }
 
   /// Reports an [event] to Sentry.io.
-  Future<SentryResponse> capture({
-    @required Event event,
-    StackFrameFilter stackFrameFilter,
+  Future<SentryResponse> captureJson({
+    @required Map<String, dynamic> json,
   }) async {
     final now = _clock();
     var authHeader = 'Sentry sentry_version=6, sentry_client=$sentryClient, '
@@ -169,10 +168,7 @@ abstract class SentryClient {
     }
 
     mergeAttributes(
-      event.toJson(
-        stackFrameFilter: stackFrameFilter,
-        origin: origin,
-      ),
+			json,
       into: data,
     );
     mergeAttributes({'platform': _platform}, into: data);
@@ -195,6 +191,19 @@ abstract class SentryClient {
 
     final String eventId = json.decode(response.body)['id'];
     return SentryResponse.success(eventId: eventId);
+  }
+
+  /// Reports an [event] to Sentry.io.
+  Future<SentryResponse> capture({
+    @required Event event,
+    StackFrameFilter stackFrameFilter,
+  }) async {
+		return captureJson(
+			json: event.toJson(
+        stackFrameFilter: stackFrameFilter,
+        origin: origin,
+      ),
+		);
   }
 
   /// Reports the [exception] and optionally its [stackTrace] to Sentry.io.
