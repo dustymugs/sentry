@@ -138,7 +138,7 @@ abstract class SentryClient {
     return '${dsnUri.scheme}://${dsnUri.host}${port}/$apiPath/$projectId/store/';
   }
 
-  /// Reports an [event] to Sentry.io.
+  /// Reports a JSON representation of an [event] to Sentry.io.
   Future<SentryResponse> captureJson({
     @required Map<String, dynamic> eventJson,
   }) async {
