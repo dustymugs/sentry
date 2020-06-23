@@ -141,8 +141,9 @@ abstract class SentryClient {
   /// Reports a JSON representation of an [event] to Sentry.io.
   Future<SentryResponse> captureJson({
     @required Map<String, dynamic> eventJson,
+		DateTime eventDateTime,
   }) async {
-    final now = _clock();
+    final DateTime now = eventDateTime ?? _clock();
     var authHeader = 'Sentry sentry_version=6, sentry_client=$sentryClient, '
         'sentry_timestamp=${now.millisecondsSinceEpoch}, sentry_key=$publicKey';
     if (secretKey != null) {
