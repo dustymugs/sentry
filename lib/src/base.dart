@@ -199,7 +199,7 @@ abstract class SentryClient {
     StackFrameFilter stackFrameFilter,
   }) async {
 		return captureJson(
-			json: event.toJson(
+			eventJson: event.toJson(
         stackFrameFilter: stackFrameFilter,
         origin: origin,
       ),
